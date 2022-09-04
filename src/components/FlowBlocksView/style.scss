@@ -1,0 +1,29 @@
+.flow-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+}
+
+.flow {
+  position: relative;
+  border-radius: 10px;
+  background: rgba(219, 234, 254, 1);
+  padding: 10px;
+  column-gap: 5px;
+  border: 2px solid rgba(219, 234, 254, 1);
+}
+
+.active {
+  border: 2px solid #333;
+}
+.empty-state {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  color: #8eb7f4;
+  font-size: 14px;
+  text-align: center;
+}

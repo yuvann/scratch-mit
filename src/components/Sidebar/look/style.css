@@ -1,0 +1,22 @@
+input[type=number] {
+  width: 30px;
+}
+input[type=text] {
+  width: 60px;
+}
+
+
+input {
+  border-radius: 5px;
+  color: black;
+  padding: 2px 5px;
+  font-size: 10px;
+  outline: none;
+  text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

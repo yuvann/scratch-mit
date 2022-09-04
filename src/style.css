@@ -1,0 +1,22 @@
+
+.block {
+    border-radius: 5px;
+    padding: 10px !important;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+input, select {
+    padding: 3px !important;
+    border-radius: 5px;
+    color: #000 !important;
+}
+
+input[type=text] {
+    text-align: left !important;
+}
+.dev-note {
+    padding: 20px;
+    text-align: center;
+    font-weight: 500;
+}

@@ -1,0 +1,15 @@
+.motion-input {
+  width: 30px;
+  border-radius: 5px;
+  color: black;
+  padding: 2px 5px;
+  font-size: 10px;
+  outline: none;
+  text-align: center;
+}
+
+.motion-input::-webkit-outer-spin-button,
+.motion-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
