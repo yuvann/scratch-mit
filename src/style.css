@@ -16,7 +16,10 @@ input[type=text] {
     text-align: left !important;
 }
 .dev-note {
-    padding: 20px;
-    text-align: center;
+    padding: 30px;
     font-weight: 500;
+}
+
+a {
+    color: dodgerblue !important;
 }

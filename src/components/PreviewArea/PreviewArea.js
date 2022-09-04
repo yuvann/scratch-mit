@@ -35,7 +35,10 @@ const PreviewAreaComponent = () => {
     })
   }, [flowsRunning])
 
-
+  /**
+   * whenever a new flow is pushed, the handleFlow will check the current block type
+   * and redirects to either MOTION or LOOK flow for the execution of block.
+   */
   const handleFlow = (flowRun) => {
     const { flow, currentBlock, playId }  = flowRun;
     const block = flow.blocks[currentBlock];
@@ -57,6 +60,9 @@ const PreviewAreaComponent = () => {
     }
   }
 
+  /**
+   * Listens for change in sprite selection, sprite co-ordinate & configs from the redux and re-draws the sprite
+   */
   useEffect(() => {
     if (!canvasCtx) {
       return;
@@ -75,6 +81,9 @@ const PreviewAreaComponent = () => {
     canvasCtx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   }
 
+  /**
+   * Checks for X axis Boundary breach
+   */
   const isWithinCanvas = (x, y, width, height) => {
     if ((x + width <= (CANVAS_WIDTH/2) && x >= -(CANVAS_WIDTH/2))) {
       return true;
@@ -82,6 +91,10 @@ const PreviewAreaComponent = () => {
     return false;
   }
 
+  /**
+   * Sets the basic config for the sprite in redux,
+   * i.e the initial x, y, width, height, currentCostume
+   */
   const setBasicConfig = (image, name) => {
     dispatch(setSpriteConfig(
       {
@@ -94,11 +107,16 @@ const PreviewAreaComponent = () => {
     ));
   }
 
+  /**
+   * Draws the sprite in canvas by reading its cords & config from the redux.
+   * Any change in Motion & Look which affect the sprite will be pushed to sprite config in redux.
+   * On redux update, everytime canvas is re-drawn
+   */
   const drawImage = (spriteInfo, name) => {
     if (!canvasCtx || !spriteInfo) {
       return;
     }
-    const { rotate, x, y, width, height, currentCostume, text } = spriteInfo
+    const { rotate, x, y, width, height, currentCostume, text } = spriteInfo;
     const image = new Image();
     image.onload = () => {
       if (!width) {
@@ -135,6 +153,11 @@ const PreviewAreaComponent = () => {
     canvasCtx.fillText(text, x, y - 15);
   }
 
+  /**
+   * If the block type id 'MOTION', then executes the motion block based on the eventName
+   * once executed, it increments the currentBlock to +1 and pushes in 'flowRunning' variable,
+   * which will execute the next block of that flow
+   */
   const handleMotion = useCallback((flowRun) => {
     if (!canvasCtx || !spriteCords) {
       return;
@@ -177,6 +200,11 @@ const PreviewAreaComponent = () => {
     }))
   }, [flowsRunning]);
 
+  /**
+   * If the block type id 'LOOK', then executes the look block based on the eventName
+   * once executed, it increments the currentBlock to +1 and pushes in 'flowRunning' variable,
+   * which will execute the next block of that flow
+   */
   const handleLook = useCallback((flowRun) => {
     if (!canvasCtx || !spriteCords) {
       return;
@@ -217,6 +245,9 @@ const PreviewAreaComponent = () => {
   }, [canvasCtx, spriteCords, eventStack, flowsRunning, currentSprite])
 
 
+  /**
+   * Events listeners are added here
+   */
   useEffect(() => {
     const flagTrigger = document.getElementById('flag-trigger');
     flagTrigger.addEventListener('click', flagListener)
@@ -232,6 +263,9 @@ const PreviewAreaComponent = () => {
     eventTrigger('FLAG_CLICK');
   }
 
+  /**
+   * Throttles the keyboard event to optimize the animation render
+   */
   const keyboardListener = (e) => {
     let isThrottling = false;
     if (isThrottling) {
@@ -242,6 +276,9 @@ const PreviewAreaComponent = () => {
     setTimeout(() => { isThrottling = false }, 200)
   }
 
+  /**
+   * Validates the event trigger
+   */
   const validateTrigger = (block, eventName, key) => {
     if (!block) {
       return;
@@ -263,6 +300,9 @@ const PreviewAreaComponent = () => {
     return false;
   }
 
+  /**
+   * Once the trigger is valid. it pushes the Flow to 'flowsRunning' state and initiates the 1st block
+   */
   const eventTrigger = (eventName, key) => {
     requestedFlowPlays.current.forEach((e, index) => {
       if (e.running || e.spriteName !== currentSprite) {
@@ -281,6 +321,9 @@ const PreviewAreaComponent = () => {
     })
   }
 
+  /**
+   * sets the canvas width, height & set the canvas context & cords in state variables
+   */
   useEffect(() => {
     if (!canvas.current) {
       return;
@@ -291,7 +334,9 @@ const PreviewAreaComponent = () => {
     canvas.current.height = CANVAS_HEIGHT;
   }, [canvas.current]);
 
-
+  /**
+   * Listens fo the click on canvas to detect the Sprite Click event.
+   */
   const onCanvasClick = (e) => {
     const scale = CANVAS_WIDTH / canvasCords.width;
     const pX = (e.clientX - canvasCords.x) * scale;
